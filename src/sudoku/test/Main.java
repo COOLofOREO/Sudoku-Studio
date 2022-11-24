@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        compareTest(Sample.difficult4);
+        //compareTest(Sample.difficult4);
+        compareTest(scan());
     }
 
     public static int[][] scan(){

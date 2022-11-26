@@ -5,7 +5,10 @@ import sudoku.utils.BFS;
 import sudoku.utils.DFS;
 
 import java.util.Scanner;
-
+/*
+  程序入口
+  author: 张奥
+*/
 public class Main {
 
     public static void main(String[] args) {

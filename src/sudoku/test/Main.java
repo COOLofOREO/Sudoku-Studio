@@ -13,7 +13,19 @@ public class Main {
 
     public static void main(String[] args) {
         //compareTest(Sample.difficult4);
-        compareTest(scan());
+        long[] ans;
+        int[][] target = scan();
+        if (args.length == 0) {
+            compareTest(target); 
+        } else if (args[0].equals("dfs")) {
+            ans = dfsTest(target);
+            System.out.println("BFS uses "+(ans[0])+"ms and recurs "+ans[1]+" times");
+        } else if (args[0].equals("bfs")) {
+            ans = bfsTest(target);
+            System.out.println("BFS uses "+(ans[0])+"ms and recurs "+ans[1]+" times");
+        } else {
+            throw new Error("mode must be dfs or bfs");
+        }
     }
 
     public static int[][] scan(){
@@ -27,21 +39,36 @@ public class Main {
                 sudoku[i][j]=Integer.parseInt(Character.toString(chars[j]));
             }
         }
+        scanner.close(); // 关闭scanner
         return sudoku;
     }
 
-    public static void compareTest(int[][] target){
+    public static long[] bfsTest(int[][] target) {
         Sudokus sudokus=new Sudokus(target);
         long a=System.currentTimeMillis();
         Sudokus bfs=BFS.solve(sudokus);
         System.out.println("BFS:");
         bfs.print();
         long b=System.currentTimeMillis();
+        long[] ans = {b-a, BFS.count};
+        return ans;
+    }
+
+    public static long[] dfsTest(int[][] target) {
+        Sudokus sudokus=new Sudokus(target);
+        long b=System.currentTimeMillis();
         Sudokus dfs=DFS.solve(sudokus);
         System.out.println("DFS:");
         dfs.print();
         long c=System.currentTimeMillis();
-        System.out.println("BFS uses "+(b-a)+"ms and recurs "+BFS.count+" times");
-        System.out.println("DFS uses "+(c-b)+"ms and recurs "+DFS.count+" times");
+        long[] ans = {c-b, DFS.count};
+        return ans;
+    }
+
+    public static void compareTest(int[][] target){
+        long[] DFSans = dfsTest(target);
+        long[] BFSans = bfsTest(target);
+        System.out.println("BFS uses "+(BFSans[0])+"ms and recurs "+BFSans[1]+" times");
+        System.out.println("DFS uses "+(DFSans[0])+"ms and recurs "+DFSans[1]+" times");
     }
 }

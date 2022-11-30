@@ -79,26 +79,26 @@ public class BFS {
         Node root=new Node();
         root.sudokus=sudokus;
         queue=root.makeChildren();
-        sort();
+//        sort();
         return bfs();
     }
 
     private Node bfs(){
         count++;
-        Node first=queue.get(0);
+        int n=firstIndex();
+        Node first=queue.get(n);
         if(!first.enable){
-            queue.remove(0);
+            queue.remove(n);
             if(queue.size()==0) return null;
             return bfs();
         }
         if(SudokuUtil.isFinish(first.sudokus.sudoku)) return first;
         else {
             List<Node> children=first.makeChildren();
-            queue.remove(0);
+            queue.remove(n);
             for (int i = 0; i < children.size(); i++) {
                 queue.add(children.get(i));
             }
-            sort();
             return bfs();
         }
     }
@@ -110,6 +110,18 @@ public class BFS {
                 return o1.remain-o2.remain;
             }
         });
+    }
+
+    private int firstIndex(){
+        int remain=queue.get(0).remain;
+        int n=0;
+        for (int i = 1; i < queue.size(); i++) {
+            if(queue.get(i).remain<remain){
+                remain=queue.get(i).remain;
+                n=i;
+            }
+        }
+        return n;
     }
 
 }
